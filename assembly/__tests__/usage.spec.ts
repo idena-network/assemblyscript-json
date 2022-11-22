@@ -21,10 +21,6 @@ class MyJSONEventsHandler extends JSONHandler {
     // Handle field
   }
 
-  setFloat(name: string, value: f64): void {
-    // Handle field
-  }
-
   pushArray(name: string): bool {
     // Handle array start
     // true means that nested object needs to be traversed, false otherwise
@@ -59,12 +55,6 @@ describe("README Usage Examples", () => {
     if (worldOrNull != null) {
       // use .valueOf() to turn the high level JSON.Str type into a string
       let world: string = worldOrNull.valueOf();
-    }
-
-    let numOrNull: JSON.Num | null = jsonObj.getNum("value");
-    if (numOrNull != null) {
-      // use .valueOf() to turn the high level JSON.Num type into a f64
-      let value: f64 = numOrNull.valueOf();
     }
 
     // If you don't know the value type, get the parent JSON.Value

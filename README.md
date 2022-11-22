@@ -30,12 +30,6 @@ if (worldOrNull != null) {
   let world: string = worldOrNull.valueOf();
 }
 
-let numOrNull: JSON.Num | null = jsonObj.getNum("value");
-if (numOrNull != null) {
-  // use .valueOf() to turn the high level JSON.Num type into a f64
-  let value: f64 = numOrNull.valueOf();
-}
-
 // If you don't know the value type, get the parent JSON.Value
 let valueOrNull: JSON.Value | null = jsonObj.getValue("hello");
   if (valueOrNull != null) {

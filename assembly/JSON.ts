@@ -32,12 +32,7 @@ class Handler extends JSONHandler {
   setInteger(name: string, value: i64): void {
     const obj = Value.Integer(value);
     this.addValue(name, obj);
-  }
-
-  setFloat(name: string, value: f64): void {
-    const obj = Value.Float(value);
-    this.addValue(name, obj);
-  }
+  }  
 
   pushArray(name: string): bool {
     const obj: Value = Value.Array();
@@ -114,12 +109,6 @@ export abstract class Value {
   static String(str: string): Str {
     return new Str(str);
   }
-  static Number(num: f64): Num {
-    return new Num(num);
-  }
-  static Float(num: f64): Float {
-    return new Float(num);
-  }
   static Integer(num: i64): Integer {
     return new Integer(num);
   }
@@ -138,15 +127,7 @@ export abstract class Value {
 
   get isString(): boolean {
     return this instanceof Str;
-  }
-
-  get isNum(): boolean {
-    return this instanceof Num;
-  }
-
-  get isFloat(): boolean {
-    return this instanceof Float;
-  }
+  }  
 
   get isInteger(): boolean {
     return this instanceof Integer;
@@ -219,23 +200,6 @@ export class Str extends Value {
   valueOf(): string {
     return this._str;
   }
-}
-
-export class Num extends Value {
-  constructor(public _num: f64) {
-    super();
-  }
-
-  stringify(): string {
-    return this._num.toString();
-  }
-
-  valueOf(): f64 {
-    return this._num;
-  }
-}
-
-export class Float extends Num {
 }
 
 export class Integer extends Value {
@@ -370,23 +334,7 @@ export class Obj extends Value {
         return <Str>jsonValue;
       }
       return null;
-    }
-
-    getNum(key: string): Num | null {
-      let jsonValue = this.get(key);
-      if (jsonValue != null && jsonValue.isNum) {
-        return <Num>jsonValue;
-      }
-      return null;
-    }
-
-    getFloat(key: string): Float | null {
-      let jsonValue = this.get(key);
-      if (jsonValue != null && jsonValue.isFloat) {
-        return <Float>jsonValue;
-      }
-      return null;
-    }
+    }    
 
     getInteger(key: string): Integer | null {
       let jsonValue = this.get(key);
@@ -427,9 +375,6 @@ export function from<T>(val: T): Value {
   }
   if (isInteger<T>(val)) {
     return Value.Integer(val);
-  }
-  if (isFloat<T>(val)) {
-    return Value.Float(val);
   }
   if (isString<T>(val)) {
     return Value.String(<string>val);

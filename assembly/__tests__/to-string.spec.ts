@@ -1,7 +1,6 @@
 import * as JSON from "../JSON";
 
 let primObj: JSON.Obj;
-let testFloat = 42.24;
 let testInteger = 42;
 let testBool = true;
 let testArray = [1, 2, 3];
@@ -9,9 +8,7 @@ let testArray = [1, 2, 3];
 describe("JSON.Value.toString()", () => {
   beforeAll(() => {
     primObj = JSON.Value.Object();
-    primObj.set("Str", JSON.from("Hello"));
-    primObj.set("Num", JSON.from(testFloat));
-    primObj.set("Float", JSON.from(testFloat));
+    primObj.set("Str", JSON.from("Hello"));    
     primObj.set("Integer", JSON.from(testInteger));
     primObj.set("Bool", JSON.from(testBool));
     primObj.set("Arr", JSON.from(testArray));
@@ -23,17 +20,6 @@ describe("JSON.Value.toString()", () => {
   it("Str", () => {
     let value = primObj.getString("Str");
     expect(value!.stringify()).toBe(`"Hello"`);
-  });
-
-  it("Num", () => {
-    let value = primObj.getNum("Num");
-    expect(value!.stringify()).toBe(testFloat.toString());
-  });
-
-  it("Float", () => {
-    let value = primObj.getFloat("Float");
-    expect(value!.stringify()).toBe(testFloat.toString());
-
   });
 
   it("Integer", () => {
@@ -64,7 +50,7 @@ describe("JSON.Value.toString()", () => {
   });
 
   it("Entire Object", () => {
-    expect(primObj.stringify()).toBe(`{"Str":"Hello","Num":42.24,"Float":42.24,"Integer":42,"Bool":true,"Arr":[1,2,3],"Obj":{"isChild":true}}`);
+    expect(primObj.stringify()).toBe(`{"Str":"Hello","Integer":42,"Bool":true,"Arr":[1,2,3],"Obj":{"isChild":true}}`);
   });
 });
 

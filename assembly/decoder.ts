@@ -11,9 +11,7 @@ export abstract class JSONHandler {
 
   setNull(name: string): void {}
 
-  setInteger(name: string, value: i64): void {}
-
-  setFloat(name: string, value: f64): void {}
+  setInteger(name: string, value: i64): void {}  
 
   pushArray(name: string): bool {
     return true;
@@ -55,15 +53,7 @@ export class ThrowingJSONHandler extends JSONHandler {
       false,
       "Unexpected integer field " + name + " : " + value.toString()
     );
-  }
-
-  setFloat(name: string, value: f64): void {
-    // @ts-ignore integer does have toString
-    assert(
-      false,
-      "Unexpected float field " + name + " : " + value.toString()
-    );
-  }
+  }  
 
   pushArray(name: string): bool {
     assert(false, "Unexpected array field " + name);
@@ -321,16 +311,13 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
   }
 
   private parseNumber(): bool {
-    let number: f64 = 0;
-    let sign: f64 = 1;
+    let number: i64 = 0;
+    let sign: i64 = 1;
     let isFloat: boolean = false;
-    // Also keeping the number as a string, because we will want to use the
-    // AS parseFloat as it handles precision best.
-    let numberAsString: string = "";
 
     if (this.peekChar() == CHAR_MINUS) {
       sign = -1;
-      numberAsString += String.fromCharCode(this.readChar());
+      this.readChar();      
     }
     let digits = 0;
     while (
@@ -342,26 +329,21 @@ export class JSONDecoder<JSONHandlerT extends JSONHandler> {
       CHAR_E_LOWER == this.peekChar()
     ) {
 
-      let charCode = this.readChar();
-      numberAsString += String.fromCharCode(charCode);
+      let charCode = this.readChar();      
 
       if (charCode == CHAR_E || charCode == CHAR_E_LOWER || charCode == CHAR_PERIOD || charCode == CHAR_PLUS || charCode == CHAR_MINUS) {
-        isFloat = true;
+        throw new Error("float numbers are not supported");
       } else {
         if (!isFloat) {
-          let value: f64 = charCode - CHAR_0;
+          let value: i64 = charCode - CHAR_0;
           number *= 10;
           number += value;
         }
         digits++;
       }
     }
-    if (digits > 0) {
-      if (isFloat || numberAsString == "-0") {
-        this.handler.setFloat(this.state.lastKey, parseFloat(numberAsString));
-      } else {
-        this.handler.setInteger(this.state.lastKey, <i64>(number * sign));
-      }
+    if (digits > 0) {  
+      this.handler.setInteger(this.state.lastKey, <i64>(number * sign));
       return true;
     }
     return false;

@@ -32,38 +32,8 @@ describe("Round trip", () => {
     roundtripTest('{"int":4660}');
   });
 
-  it("should handle float32", () => {
-    // expectFn(():void => {
-    roundtripTest('{"float":24.24}');
-  });
-
   it("should handle int32Sign", () => {
     roundtripTest('{"int":-4660}');
-  });
-
-  it("should handle float32Sign", () => {
-    roundtripTest('{"float":-24.24}');
-  });
-
-  it("should handle scientific notation float", () => {
-    // Lower and Upper E
-    roundtripTest(
-      '{"floatLowerE":1.23456e5,"floatUpperE":1.23456E5}', 
-      '{"floatLowerE":123456.0,"floatUpperE":123456.0}'
-    );
-
-    // Complex Scientific Notation
-    roundtripTest(
-      '{"floatEMinus":123456e-5,"floatEPlus":1.23456E+5}', 
-      '{"floatEMinus":1.23456,"floatEPlus":123456.0}'
-    );
-  });
-
-  it("should handle special floats", () => {
-    roundtripTest(
-      '{"negativeZero":-0}',
-      '{"negativeZero":0.0}',
-    );
   });
 
 

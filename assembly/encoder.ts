@@ -41,12 +41,7 @@ export class JSONEncoder {
   setInteger(name: string | null, value: i64): void {
     this.writeKey(name);
     this.writeInteger(value);
-  }
-
-  setFloat(name: string | null, value: f64): void {
-    this.writeKey(name);
-    this.writeFloat(value);
-  }
+  }  
 
   pushArray(name: string | null): bool {
     this.writeKey(name);
@@ -126,11 +121,7 @@ export class JSONEncoder {
 
   private writeInteger(value: i64): void {
     this.write(value.toString());
-  }
-
-  private writeFloat(value: f64): void {
-    this.write(value.toString());
-  }
+  }  
 
   private write(str: string): void {
     this.result.push(str);
